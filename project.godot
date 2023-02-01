@@ -14,20 +14,44 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/GameBoard/Cursor.gd"
 }, {
+"base": "Node2D",
+"class": "GameBoard",
+"language": "GDScript",
+"path": "res://Scenes/GameBoard/GameBoard.gd"
+}, {
 "base": "Resource",
 "class": "Grid",
 "language": "GDScript",
 "path": "res://Scenes/Grid.gd"
 }, {
+"base": "Reference",
+"class": "PathFinder",
+"language": "GDScript",
+"path": "res://Scenes/GameBoard/PathFinder.gd"
+}, {
 "base": "Path2D",
 "class": "Unit",
 "language": "GDScript",
 "path": "res://Scenes/Units/Unit.gd"
+}, {
+"base": "TileMap",
+"class": "UnitOverlay",
+"language": "GDScript",
+"path": "res://Scenes/Units/UnitOverlay.gd"
+}, {
+"base": "TileMap",
+"class": "UnitPath",
+"language": "GDScript",
+"path": "res://Scenes/Units/UnitPath.gd"
 } ]
 _global_script_class_icons={
 "Cursor": "",
+"GameBoard": "",
 "Grid": "",
-"Unit": ""
+"PathFinder": "",
+"Unit": "",
+"UnitOverlay": "",
+"UnitPath": ""
 }
 
 [application]
@@ -37,8 +61,8 @@ config/icon="res://icon.png"
 
 [display]
 
-window/size/width=1280
-window/size/height=1024
+window/size/width=1920
+window/size/height=1080
 
 [gui]
 
