@@ -29,7 +29,7 @@
 tile_set = SubResource( 1 )
 cell_size = Vector2( 80, 80 )
 format = 1
-tile_data = PoolIntArray( 15, 0, 4, 65538, 0, 1, 196618, 0, 2, 262144, 0, 1, 262147, 0, 2, 393225, 0, 1, 393231, 0, 1, 589832, 0, 2, 655362, 0, 1, 655373, 0, 1 )
+tile_data = PoolIntArray( 393228, 0, 0 )
 __meta__ = {
 "_edit_lock_": true
 }

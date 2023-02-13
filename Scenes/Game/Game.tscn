@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Backgrounds/2023_Starfield.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/TileMaps/DefaultTileMap.tscn" type="PackedScene" id=2]
@@ -8,8 +8,14 @@
 [ext_resource path="res://Scenes/GameBoard/Cursor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Units/UnitOverlay.tscn" type="PackedScene" id=7]
 [ext_resource path="res://Scenes/Units/UnitPath.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Interface/GUI.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Game/Game.gd" type="Script" id=10]
 
-[node name="Game" type="Node2D"]
+[node name="Game" type="Node"]
+script = ExtResource( 10 )
+
+[node name="GUI" parent="." instance=ExtResource( 9 )]
+mouse_filter = 2
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 visible = false
@@ -34,7 +40,7 @@ position = Vector2( 0, -1 )
 [node name="Cursor" parent="GameBoard" instance=ExtResource( 6 )]
 
 [node name="Unit" parent="GameBoard" instance=ExtResource( 4 )]
-position = Vector2( 464, 409 )
+position = Vector2( 1001, 523 )
 skin = ExtResource( 3 )
 
 [connection signal="accept_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_accept_pressed"]
