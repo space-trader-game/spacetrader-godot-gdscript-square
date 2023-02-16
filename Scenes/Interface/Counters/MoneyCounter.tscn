@@ -4,6 +4,12 @@
 [ext_resource path="res://Scenes/Interface/Counters/Counter.tscn" type="PackedScene" id=2]
 
 [node name="MoneyCounter" instance=ExtResource( 2 )]
+margin_right = 340.0
+rect_min_size = Vector2( 340, 0 )
 
 [node name="Icon" parent="." index="0"]
 texture = ExtResource( 1 )
+
+[node name="Number" parent="." index="1"]
+margin_right = 263.0
+text = "1,000,000,000"

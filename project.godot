@@ -57,6 +57,7 @@ _global_script_class_icons={
 [application]
 
 config/name="Spacetrader 2249"
+run/main_scene="res://Scenes/Game/Game.tscn"
 config/icon="res://icon.png"
 
 [display]

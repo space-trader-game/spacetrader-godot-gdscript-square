@@ -10,8 +10,17 @@ extends Path2D
 ## Emitted when the unit reached the end of a path along which it was walking.
 signal walk_finished
 
+## Emitted when the unit is clicked in the gameboard
+signal show_details
+
 ## Shared resource of type Grid, used to calculate map coordinates.
 export var grid: Resource = preload("res://Scenes/Grid.tres")
+
+## The unit's stats interface scene
+export var interface_scene: Resource
+
+## The default name for the unit
+export var unit_name: String
 
 ## Texture representing the unit.
 export var skin: Texture setget set_skin
@@ -93,6 +102,11 @@ func set_skin_offset(value: Vector2) -> void:
 	if not _sprite:
 		yield(self, "ready")
 	_sprite.position = value
+
+
+func show_details() -> void:
+	print("showing unit details")
+	emit_signal("show_details", interface_scene)
 
 
 func _set_is_walking(value: bool) -> void:
