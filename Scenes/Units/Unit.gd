@@ -46,6 +46,7 @@ onready var _anim_player: AnimationPlayer = $AnimationPlayer
 onready var _path_follow: PathFollow2D = $PathFollow2D
 
 
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# Initially set the remaining moves to the move range
 	# this will need to be reset on a new turn

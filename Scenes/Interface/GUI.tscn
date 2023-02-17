@@ -35,3 +35,5 @@ margin_left = -166.0
 margin_top = -63.0
 margin_right = -16.0
 margin_bottom = -16.0
+
+[connection signal="pressed" from="EndTurnButton" to="." method="_on_EndTurnButton_pressed"]

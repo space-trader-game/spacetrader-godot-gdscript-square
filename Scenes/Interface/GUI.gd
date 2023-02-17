@@ -1,11 +1,12 @@
 extends Control
 
+signal turn_ended
+
 
 var _units := {}
 
 var _game_board: GameBoard
 
-#onready var _details_area = $Details
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -39,3 +40,7 @@ func _show_unit_details(referenced_screen: Resource, the_unit: Unit):
   var details_screen = referenced_screen.instance()
   details_screen.my_unit = the_unit
   add_child(details_screen)
+
+
+func _on_EndTurnButton_pressed():
+  emit_signal("turn_ended")

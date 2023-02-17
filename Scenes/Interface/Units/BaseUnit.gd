@@ -20,5 +20,12 @@ func _process(_delta):
   _moves_remaining.text = str(my_unit.remaining_moves)
 
 
+## closes the unit interface screen when the cancel button is pressed
+func _unhandled_input(event: InputEvent) -> void:
+  if event.is_action_pressed("ui_cancel"):
+    queue_free()
+
+
+## closes the unit interface screen when the x button is pressed
 func _on_x_Button_pressed():
-  get_parent().queue_free()
+  queue_free()
