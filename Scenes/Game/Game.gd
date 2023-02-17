@@ -24,6 +24,8 @@ func _ready():
 # https://godotengine.org/qa/18559/how-to-add-commas-to-an-integer-or-float-in-gdscript?show=70786#a70786
 static func comma_sep(n: int) -> String:
   var result := ""
+
+  # warning-ignore:narrowing_conversion
   var i: int = abs(n)
 
   while i > 999:

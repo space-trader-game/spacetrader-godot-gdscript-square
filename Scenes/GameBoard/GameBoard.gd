@@ -42,8 +42,13 @@ func is_occupied(cell: Vector2) -> bool:
 
 ## Returns an array of cells a given unit can walk using the flood fill algorithm.
 func get_walkable_cells(unit: Unit) -> Array:
-	return _flood_fill(unit.cell, unit.move_range)
+	return _flood_fill(unit.cell, unit.remaining_moves)
 
+## Returns a distance in integer units between to points on the gameboard
+func get_distance(start_cell: Vector2, end_cell: Vector2) -> int:
+	var difference: Vector2 = (end_cell - start_cell).abs()
+	var distance := int(difference.x + difference.y)
+	return distance
 
 ## Clears, and refills the `_units` dictionary with game objects that are on the board.
 func _reinitialize() -> void:
@@ -67,9 +72,7 @@ func _flood_fill(cell: Vector2, max_distance: int) -> Array:
 		if current in array:
 			continue
 
-		var difference: Vector2 = (current - cell).abs()
-		var distance := int(difference.x + difference.y)
-		if distance > max_distance:
+		if get_distance(cell, current) > max_distance:
 			continue
 
 		array.append(current)
@@ -86,12 +89,20 @@ func _flood_fill(cell: Vector2, max_distance: int) -> Array:
 
 ## Updates the _units dictionary with the target position for the unit and asks the _active_unit to walk to it.
 func _move_active_unit(new_cell: Vector2) -> void:
+
+	# if the cell that was selected is occupied or isn't walkable, don't do anything and return
 	if is_occupied(new_cell) or not new_cell in _walkable_cells:
 		return
+
+	# change the unit dictionary that the gameboard is maintaining to have the place the unit is going to
 	# warning-ignore:return_value_discarded
 	_units.erase(_active_unit.cell)
 	_units[new_cell] = _active_unit
 	_deselect_active_unit()
+
+	# reduce the remaining number of moves by the distance walked
+	_active_unit.remaining_moves -= get_distance(new_cell, _active_unit.cell)
+
 	_active_unit.walk_along(_unit_path.current_path)
 	yield(_active_unit, "walk_finished")
 	_clear_active_unit()
@@ -105,7 +116,7 @@ func _select_unit(cell: Vector2) -> void:
 
 	_active_unit = _units[cell]
 	_active_unit.is_selected = true
-	_active_unit.show_details()
+	_active_unit.click_unit()
 
 	_walkable_cells = get_walkable_cells(_active_unit)
 	_unit_overlay.draw(_walkable_cells)

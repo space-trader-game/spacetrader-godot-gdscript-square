@@ -1,9 +1,8 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Assets/Backgrounds/2023_Starfield.png" type="Texture" id=1]
 [ext_resource path="res://Scenes/TileMaps/DefaultTileMap.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Scenes/Units/Freighter/Freighter.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/Units/Unit.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/GameBoard/GameBoard.gd" type="Script" id=5]
 [ext_resource path="res://Scenes/GameBoard/Cursor.tscn" type="PackedScene" id=6]
 [ext_resource path="res://Scenes/Units/UnitOverlay.tscn" type="PackedScene" id=7]
@@ -38,7 +37,7 @@ position = Vector2( 0, -1 )
 
 [node name="Freighter" parent="GameBoard" instance=ExtResource( 3 )]
 position = Vector2( 999, 519 )
-script = ExtResource( 4 )
+move_range = 6
 
 [node name="GUI" parent="." instance=ExtResource( 9 )]
 mouse_filter = 2

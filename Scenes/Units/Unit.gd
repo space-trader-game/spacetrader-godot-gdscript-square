@@ -11,7 +11,7 @@ extends Path2D
 signal walk_finished
 
 ## Emitted when the unit is clicked in the gameboard
-signal show_details
+signal unit_clicked
 
 ## Shared resource of type Grid, used to calculate map coordinates.
 export var grid: Resource = preload("res://Scenes/Grid.tres")
@@ -25,11 +25,14 @@ export var unit_name: String
 ## Texture representing the unit.
 export var skin: Texture setget set_skin
 ## Distance to which the unit can walk in cells.
-export var move_range := 6
+export var move_range: int
 ## Offset to apply to the `skin` sprite in pixels.
 export var skin_offset := Vector2.ZERO setget set_skin_offset
 ## The unit's move speed when it's moving along a path.
 export var move_speed := 600.0
+
+## The remaining number of moves the unit has
+var remaining_moves: int
 
 ## Coordinates of the current cell the cursor moved to.
 var cell := Vector2.ZERO setget set_cell
@@ -44,6 +47,14 @@ onready var _path_follow: PathFollow2D = $PathFollow2D
 
 
 func _ready() -> void:
+	# Initially set the remaining moves to the move range
+	# this will need to be reset on a new turn
+	remaining_moves = move_range
+
+	# add the unit to the units group
+	add_to_group("units")
+
+	# disable processing - process is where the path movement happens
 	set_process(false)
 
 	self.cell = grid.calculate_grid_coordinates(position)
@@ -104,9 +115,9 @@ func set_skin_offset(value: Vector2) -> void:
 	_sprite.position = value
 
 
-func show_details() -> void:
-	print("showing unit details")
-	emit_signal("show_details", interface_scene)
+func click_unit() -> void:
+	# the game user interface is listening for "unit_clicked" signals
+	emit_signal("unit_clicked", interface_scene, self)
 
 
 func _set_is_walking(value: bool) -> void:
