@@ -14,7 +14,6 @@ export var cell_size := Vector2(80, 80)
 ## Half of ``cell_size``
 var _half_cell_size = cell_size / 2
 
-
 ## Returns the position of a cell's center in pixels.
 func calculate_map_position(grid_position: Vector2) -> Vector2:
 	return grid_position * cell_size + _half_cell_size

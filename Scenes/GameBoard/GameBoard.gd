@@ -14,11 +14,17 @@ var _units := {}
 var _active_unit: Unit
 var _walkable_cells := []
 
+var _star_systems := {}
+var _active_system: StarSystem
+
+var _gui: Control
+
 onready var _unit_overlay: UnitOverlay = $UnitOverlay
 onready var _unit_path: UnitPath = $UnitPath
 
 
 func _ready() -> void:
+	_gui = get_parent().get_node("GUI")
 	_reinitialize()
 
 
@@ -26,6 +32,10 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _active_unit and event.is_action_pressed("ui_cancel"):
 		_deselect_active_unit()
 		_clear_active_unit()
+		
+	if _active_system and event.is_action_pressed("ui_cancel"):
+		_deselect_active_system()
+		_clear_active_system()
 
 
 func _get_configuration_warning() -> String:
@@ -43,6 +53,7 @@ func is_occupied(cell: Vector2) -> bool:
 ## Returns an array of cells a given unit can walk using the flood fill algorithm.
 func get_walkable_cells(unit: Unit) -> Array:
 	return _flood_fill(unit.cell, unit.remaining_moves)
+	
 
 ## Returns a distance in integer units between to points on the gameboard
 func get_distance(start_cell: Vector2, end_cell: Vector2) -> int:
@@ -50,15 +61,26 @@ func get_distance(start_cell: Vector2, end_cell: Vector2) -> int:
 	var distance := int(difference.x + difference.y)
 	return distance
 
-## Clears, and refills the `_units` dictionary with game objects that are on the board.
+
+## Clears, and refills the `_units` and `_systems` dictionaries with game
+## objects that are on the board.
 func _reinitialize() -> void:
 	_units.clear()
-
-	for child in get_children():
-		var unit := child as Unit
-		if not unit:
-			continue
+	_star_systems.clear()
+	
+	for unit in $UnitContainer.get_children():
+		# put the unit into the dictionary
 		_units[unit.cell] = unit
+		
+		# connect the clicked signal emitted by the unit to the GUIs show unit details method
+		unit.connect("unit_clicked", _gui, "_show_unit_details")
+		
+	for star_system in $SystemContainer.get_children():
+		# put the star system into the dictionary
+		_star_systems[star_system.cell] = star_system
+		
+		# connect the clicked signal emitted by the star system to the GUIs show system details method
+		star_system.connect("system_clicked", _gui, "_show_system_details")
 
 
 ## Returns an array with all the coordinates of walkable cells based on the `max_distance`.
@@ -110,24 +132,47 @@ func _move_active_unit(new_cell: Vector2) -> void:
 
 ## Selects the unit in the `cell` if there's one there.
 ## Sets it as the `_active_unit` and draws its walkable cells and interactive move path. 
-func _select_unit(cell: Vector2) -> void:
-	if not _units.has(cell):
+func _select_thing(cell: Vector2) -> void:
+
+	if _units.has(cell) && _star_systems.has(cell):
+		print("haven't handled this situation yet")
 		return
+		
+	if _units.has(cell):
+		print("unit selected")
+		_active_unit = _units[cell]
+		_active_unit.is_selected = true
+		_active_unit.click_unit()
 
-	_active_unit = _units[cell]
-	_active_unit.is_selected = true
-	_active_unit.click_unit()
+		_walkable_cells = get_walkable_cells(_active_unit)
+		_unit_overlay.draw(_walkable_cells)
+		_unit_path.initialize(_walkable_cells)
+		return
+		
+	if _star_systems.has(cell):
+		print("system selected")
+		_active_system = _star_systems[cell]
+		_active_system.is_selected = true
+		_active_system.click_system()
+		return
+		
+	print("looks like clicked on empty space")
 
-	_walkable_cells = get_walkable_cells(_active_unit)
-	_unit_overlay.draw(_walkable_cells)
-	_unit_path.initialize(_walkable_cells)
+## Deselects the active system
+func _deselect_active_system() -> void:
+	_active_system.is_selected = false
 
 
 ## Deselects the active unit, clearing the cells overlay and interactive path drawing.
 func _deselect_active_unit() -> void:
+	print("deselecting active unit")
 	_active_unit.is_selected = false
 	_unit_overlay.clear()
 	_unit_path.stop()
+
+## Clears the reference to the _active_system
+func _clear_active_system() -> void:
+	_active_system = null
 
 
 ## Clears the reference to the _active_unit and the corresponding walkable cells.
@@ -138,10 +183,15 @@ func _clear_active_unit() -> void:
 
 ## Selects or moves a unit based on where the cursor is.
 func _on_Cursor_accept_pressed(cell: Vector2) -> void:
-	if not _active_unit:
-		_select_unit(cell)
-	elif _active_unit.is_selected:
-		_move_active_unit(cell)
+	print(cell)
+	if not _active_unit && not _active_system:
+		print("not active unit or system, so selecting")
+		_select_thing(cell)
+
+	elif _active_unit:
+		if _active_unit.is_selected:
+			# a selected active unit would be moved by a click
+			_move_active_unit(cell)
 
 
 ## Updates the interactive path's drawing if there's an active and selected unit.
