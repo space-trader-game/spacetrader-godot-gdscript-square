@@ -58,6 +58,7 @@ func _ready() -> void:
 	# disable processing - process is where the path movement happens
 	set_process(false)
 
+	# ensure the unit is centered in a cell when added to the scene tree
 	self.cell = grid.calculate_grid_coordinates(position)
 	position = grid.calculate_map_position(cell)
 
@@ -97,8 +98,10 @@ func set_cell(value: Vector2) -> void:
 func set_is_selected(value: bool) -> void:
 	is_selected = value
 	if is_selected:
+		print("playing selected animation")
 		_anim_player.play("selected")
 	else:
+		print("playing idle animation")
 		_anim_player.play("idle")
 
 
@@ -118,6 +121,7 @@ func set_skin_offset(value: Vector2) -> void:
 
 func click_unit() -> void:
 	# the game user interface is listening for "unit_clicked" signals
+	print("emitting unit_clicked signal")
 	emit_signal("unit_clicked", interface_scene, self)
 
 

@@ -19,12 +19,10 @@ margin_right = -16.0
 margin_bottom = 64.0
 
 [node name="MoneyCounter" parent="Counters" instance=ExtResource( 2 )]
-margin_bottom = 40.0
 
 [node name="TurnCounter" parent="Counters" instance=ExtResource( 1 )]
 margin_left = 344.0
 margin_right = 544.0
-margin_bottom = 40.0
 
 [node name="EndTurnButton" parent="." instance=ExtResource( 3 )]
 anchor_left = 1.0

@@ -16,8 +16,9 @@ func _ready():
   _gui.connect("turn_ended", self, "_on_turn_ended")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func _process(delta):
+  _turn_counter.text = str(_current_turn)
+  _money_counter.text = comma_sep(_current_money)
 
 # https://godotengine.org/qa/18559/how-to-add-commas-to-an-integer-or-float-in-gdscript?show=70786#a70786
 static func comma_sep(n: int) -> String:
@@ -41,3 +42,6 @@ func _on_turn_ended():
   for unit in current_units:
     # reset the unit moves remaining to the unit's movement range
     unit.remaining_moves = unit.move_range
+  
+  # increment the current turn
+  _current_turn += 1
