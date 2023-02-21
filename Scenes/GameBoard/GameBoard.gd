@@ -135,11 +135,11 @@ func _move_active_unit(new_cell: Vector2) -> void:
 func _select_thing(cell: Vector2) -> void:
 
 	if _units.has(cell) && _star_systems.has(cell):
-		print("haven't handled this situation yet")
+		print("GameBoard.gd: haven't handled this situation yet")
 		return
 		
 	if _units.has(cell):
-		print("unit selected")
+		print("GameBoard.gd: unit selected")
 		_active_unit = _units[cell]
 		_active_unit.is_selected = true
 		_active_unit.click_unit()
@@ -150,13 +150,13 @@ func _select_thing(cell: Vector2) -> void:
 		return
 		
 	if _star_systems.has(cell):
-		print("system selected")
+		print("GameBoard.gd: system selected")
 		_active_system = _star_systems[cell]
 		_active_system.is_selected = true
 		_active_system.click_system()
 		return
 		
-	print("looks like clicked on empty space")
+	print("GameBoard.gd: looks like clicked on empty space")
 
 ## Deselects the active system
 func _deselect_active_system() -> void:
@@ -165,7 +165,7 @@ func _deselect_active_system() -> void:
 
 ## Deselects the active unit, clearing the cells overlay and interactive path drawing.
 func _deselect_active_unit() -> void:
-	print("deselecting active unit")
+	print("GameBoard.gd: deselecting active unit")
 	_active_unit.is_selected = false
 	_unit_overlay.clear()
 	_unit_path.stop()
@@ -183,9 +183,9 @@ func _clear_active_unit() -> void:
 
 ## Selects or moves a unit based on where the cursor is.
 func _on_Cursor_accept_pressed(cell: Vector2) -> void:
-	print(cell)
+	print("GameBoard.gd: " + str(cell))
 	if not _active_unit && not _active_system:
-		print("not active unit or system, so selecting")
+		print("GameBoard.gd: not active unit or system, so selecting")
 		_select_thing(cell)
 
 	elif _active_unit:

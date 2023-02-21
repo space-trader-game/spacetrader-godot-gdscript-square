@@ -43,15 +43,15 @@ func set_cell(value: Vector2) -> void:
 func set_is_selected(value: bool) -> void:
 	is_selected = value
 	if is_selected:
-		print("playing selected animation")
+		print("StarSystem.gd: playing selected animation")
 		_anim_player.play("selected")
 	else:
-		print("playing idle animation")
+		print("StarSystem.gd: playing idle animation")
 		_anim_player.play("idle")
 
 
 func click_system() -> void:
 	# the game user interface is listening for "unit_clicked" signals
-	print("emitting system_clicked signal")
+	print("StarSystem.gd: emitting system_clicked signal")
 	emit_signal("system_clicked", interface_scene, self)
 

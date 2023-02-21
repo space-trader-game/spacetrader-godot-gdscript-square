@@ -33,7 +33,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		self.cell = grid.calculate_grid_coordinates(event.position)
 	# Trying to select something in a cell.
 	elif event.is_action_pressed("click") or event.is_action_pressed("ui_accept"):
-		print("cursor clicked")
+		print("Cursor.gd: cursor clicked")
 		emit_signal("accept_pressed", cell)
 		get_tree().set_input_as_handled()
 
