@@ -1,8 +1,0 @@
-[gd_scene load_steps=3 format=2]
-
-[ext_resource path="res://Scenes/Systems/StarSystem.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Scenes/Systems/RockWorld/RockWorldStats.tscn" type="PackedScene" id=2]
-
-[node name="StarSystem" instance=ExtResource( 1 )]
-system_name = "RockWorldDefault"
-interface_scene = ExtResource( 2 )
