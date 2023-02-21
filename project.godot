@@ -34,10 +34,20 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://Scenes/Systems/StarSystem.gd"
 }, {
+"base": "NinePatchRect",
+"class": "SystemDetailsScreen",
+"language": "GDScript",
+"path": "res://Scenes/Interface/Systems/BaseSystem.gd"
+}, {
 "base": "Path2D",
 "class": "Unit",
 "language": "GDScript",
 "path": "res://Scenes/Units/Unit.gd"
+}, {
+"base": "NinePatchRect",
+"class": "UnitDetailsScreen",
+"language": "GDScript",
+"path": "res://Scenes/Interface/Units/BaseUnit.gd"
 }, {
 "base": "TileMap",
 "class": "UnitOverlay",
@@ -55,7 +65,9 @@ _global_script_class_icons={
 "Grid": "",
 "PathFinder": "",
 "StarSystem": "",
+"SystemDetailsScreen": "",
 "Unit": "",
+"UnitDetailsScreen": "",
 "UnitOverlay": "",
 "UnitPath": ""
 }

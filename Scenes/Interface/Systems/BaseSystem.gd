@@ -1,4 +1,9 @@
+class_name SystemDetailsScreen
 extends NinePatchRect
+
+
+## Emitted when this details window should be removed/closed
+signal window_closed
 
 
 var my_system: StarSystem
@@ -21,13 +26,19 @@ func _ready():
 #	pass
 
 
+# called when the window should be destroyed
+func _close_window():
+  emit_signal("window_closed", self)
+  queue_free()
+
+
 ## closes the system interface screen when the cancel button is pressed
 func _unhandled_input(event: InputEvent) -> void:
   if event.is_action_pressed("ui_cancel"):
-    queue_free()
+    _close_window()
 
 
 ## closes the unit interface screen when the x button is pressed
 func _on_x_Button_pressed():
-  queue_free()
+  _close_window()
 
