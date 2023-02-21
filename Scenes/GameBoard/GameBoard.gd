@@ -198,3 +198,16 @@ func _on_Cursor_accept_pressed(cell: Vector2) -> void:
 func _on_Cursor_moved(new_cell: Vector2) -> void:
 	if _active_unit and _active_unit.is_selected:
 		_unit_path.draw(_active_unit.cell, new_cell)
+
+
+func _on_details_window_closed(details_screen):
+	print("GameBoard.gd: received details window closed signal")
+	if details_screen is UnitDetailsScreen:
+		print("GameBoard.gd: it's a unit details screen")
+		if _active_unit:
+			_deselect_active_unit()
+		_clear_active_unit()
+	if details_screen is SystemDetailsScreen:
+		print("GameBoard.gd: it's a system details screen")
+		_deselect_active_system()
+		_clear_active_system()
