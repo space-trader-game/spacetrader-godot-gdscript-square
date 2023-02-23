@@ -74,24 +74,8 @@ func _reinitialize() -> void:
   for unit in $UnitContainer.get_children():
     # connect the clicked signal emitted by the unit to the GUIs show unit details method
     unit.connect("unit_clicked", _gui, "_show_unit_details")
-    
-    # check if the unit dictionary already has an entry for the key
-    if _units.has(unit.cell):
-      # if there is an entry, check if it is an array
-      if _units[unit.cell] is Array:
-        # if it is an array, append the unit
-        _units[unit.cell].append(unit)
-      else:
-        # temporarily copy the single unit from the dict
-        var temp_unit = _units[unit.cell]
-        
-        # assign the existing unit to the 0 position and the new unit to the 1 position
-        # in a new array of units
-        _units[unit.cell] = [temp_unit, unit]
-    else:
-      # if there is no entry store the first unit in the dict 
-      _units[unit.cell] = unit
-    
+    _add_unit_to_cell(unit)
+
   for star_system in $SystemContainer.get_children():
     # put the star system into the dictionary
     _star_systems[star_system.cell] = star_system
@@ -106,37 +90,51 @@ func _flood_fill(cell: Vector2, max_distance: int) -> Array:
   var stack := [cell]
   while not stack.empty():
     var current = stack.pop_back()
+    
+    # check if the current cell is within the bounds of the game board or go to the next iteration
     if not grid.is_within_bounds(current):
       continue
+      
+    # if the current cell is already in the array, go to the next loop iteration
     if current in array:
       continue
 
+    # if the cell is further away than the max distance we can travel, go to the next iteration
     if get_distance(cell, current) > max_distance:
       continue
 
+    # put the current cell on the array of valid cells
     array.append(current)
+    
+    # peek in the directions around the current cell
     for direction in DIRECTIONS:
       var coordinates: Vector2 = current + direction
-      if is_occupied(coordinates):
-        continue
+      
+      # if the peeked cell is already in the array, go to the next iteration
       if coordinates in array:
         continue
 
+      # push the peeked cell onto the stack and perform the fill again
       stack.append(coordinates)
+      
+  # return the resulting array of valid cells
   return array
 
 
 ## Updates the _units dictionary with the target position for the unit and asks the _active_unit to walk to it.
 func _move_active_unit(new_cell: Vector2) -> void:
 
-  # if the cell that was selected is occupied or isn't walkable, don't do anything and return
-  if is_occupied(new_cell) or not new_cell in _walkable_cells:
+  # if the cell that was selected isn't walkable, don't do anything and return
+  if not new_cell in _walkable_cells:
     return
 
   # change the unit dictionary that the gameboard is maintaining to have the place the unit is going to
-  # warning-ignore:return_value_discarded
-  _units.erase(_active_unit.cell)
-  _units[new_cell] = _active_unit
+  _remove_unit_from_cell(_active_unit)
+  
+  # in the original gdquest, the unit dict was updated already with the new cell
+  #_units[new_cell] = _active_unit
+  
+  # deselect the unit to clear the overlay and the autotile path before moving it
   _deselect_active_unit()
 
   # reduce the remaining number of moves by the distance walked
@@ -144,6 +142,12 @@ func _move_active_unit(new_cell: Vector2) -> void:
 
   _active_unit.walk_along(_unit_path.current_path)
   yield(_active_unit, "walk_finished")
+  
+  # instead of updating the dict before we move, we wait for the walk to finish, which
+  # updates the unit's position, and now we can add the unit to the dict at its new position
+  _add_unit_to_cell(_active_unit)
+
+  # we're finally done with the unit so we can clear it
   _clear_active_unit()
   
 
@@ -163,6 +167,47 @@ func _is_stack_selected(cell: Vector2) -> bool:
 
   # no conditions for stack selected
   return false
+  
+
+# helper function to add a unit to the dictionary at its current cell position
+func _add_unit_to_cell(the_unit: Unit) -> void:
+  # check if the unit dictionary already has an entry for the key
+  if _units.has(the_unit.cell):
+    # if there is an entry, check if it is an array
+    if _units[the_unit.cell] is Array:
+      # if it is an array, append the unit
+      _units[the_unit.cell].append(the_unit)
+    else:
+      # temporarily copy the single unit from the dict
+      var temp_unit = _units[the_unit.cell]
+      
+      # assign the existing unit to the 0 position and the new unit to the 1 position
+      # in a new array of units
+      _units[the_unit.cell] = [temp_unit, the_unit]
+  else:
+    # if there is no entry store the first unit in the dict 
+    _units[the_unit.cell] = the_unit
+
+
+# helper function to remove a unit from the dictionary at a cell position
+func _remove_unit_from_cell(the_unit: Unit) -> void:
+  # check the units dict to see if there's one or many units in the
+  # cell that we are removing from
+  if _units[the_unit.cell] is Array:
+    # if we found an array with more than one unit, remove the supplied unit from the array
+    _units[the_unit.cell].erase(the_unit)
+    
+    # if the array only has one unit left, we need to replace the
+    # array with the single unit
+    if _units[the_unit.cell].size() == 1:
+      var temp_unit = _units[the_unit.cell][0]
+      _units[the_unit.cell] = temp_unit
+    
+  else:
+    # there was not an array, which means the unit was the only one in the cell
+    # so we just erase it
+    # warning-ignore:return_value_discarded
+    _units.erase(the_unit.cell)
 
 
 ## Selects the unit in the `cell` if there's one there.

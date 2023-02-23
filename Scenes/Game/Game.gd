@@ -33,6 +33,7 @@ static func comma_sep(n: int) -> String:
 
   return "%s%s%s" % ["-" if n < 0 else "", i, result]
 
+# TODO: Should this be processed in the game, or should each unit process this individually via a signal?
 ## Called when the player clicks the end turn button
 func _on_turn_ended():
   # get all of the units
