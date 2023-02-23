@@ -39,13 +39,17 @@ position = Vector2( 0, -1 )
 [node name="SystemContainer" type="Node2D" parent="GameBoard"]
 
 [node name="StarSystem" parent="GameBoard/SystemContainer" instance=ExtResource( 4 )]
-position = Vector2( 482, 755 )
+position = Vector2( 764, 536 )
 system_name = "Metallical"
 
 [node name="UnitContainer" type="Node2D" parent="GameBoard"]
 
 [node name="Freighter" parent="GameBoard/UnitContainer" instance=ExtResource( 3 )]
-position = Vector2( 1023, 522 )
+position = Vector2( 1026, 356 )
+move_range = 6
+
+[node name="Freighter2" parent="GameBoard/UnitContainer" instance=ExtResource( 3 )]
+position = Vector2( 909, 349 )
 move_range = 6
 
 [node name="GUI" parent="." instance=ExtResource( 9 )]
