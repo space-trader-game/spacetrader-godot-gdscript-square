@@ -28,3 +28,5 @@ margin_right = 420.0
 margin_bottom = 128.0
 theme = ExtResource( 1 )
 text = "Open"
+
+[connection signal="pressed" from="Button" to="." method="_on_open_Button_pressed"]
