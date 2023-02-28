@@ -218,6 +218,9 @@ func _select_thing(cell: Vector2) -> void:
     print("GameBoard.gd: selected a cell with a stack")
     var stacked_details_interface = _stacked_details_interface.instance()
     
+    # tell the stacked details interface where the game gui is
+    stacked_details_interface.gui = _gui
+    
     # determine if there are one or multiple units in the cell
     if _units[cell] is Array:
       print("GameBoard.gd: there are multiple units in the cell")

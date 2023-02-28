@@ -49,7 +49,7 @@ position = Vector2( 1253, 351 )
 move_range = 6
 
 [node name="Freighter2" parent="GameBoard/UnitContainer" instance=ExtResource( 3 )]
-position = Vector2( 909, 349 )
+position = Vector2( 766, 517 )
 move_range = 6
 
 [node name="GUI" parent="." instance=ExtResource( 9 )]

@@ -5,11 +5,15 @@ extends NinePatchRect
 ## Emitted when this details window should be removed/closed
 signal window_closed
 
+
 # an array of all of the units in the cell
 var units: Array
 
 # if the stack includes a starsystem to present
 var star_system = null
+
+# the game's gui
+var gui: Control
 
 
 onready var _list_container = $ScrollContainer/VBoxContainer
@@ -35,7 +39,11 @@ func _ready():
   if !(star_system == null):
     print("StackedDetailsInterface.gd: adding a system stack")
     var stacked_system_interface = _stacked_system_details_resource.instance()
-    stacked_system_interface.system_name = star_system.system_name
+    stacked_system_interface.connect("system_open_button_pressed", self, "_on_system_open_button_pressed")
+    
+    # set up the system details interface so it knows things
+    stacked_system_interface.my_star_system = star_system
+    stacked_system_interface.gui = gui
     
     _list_container.add_child(stacked_system_interface)
 
@@ -61,3 +69,8 @@ func _on_x_Button_pressed():
   print("StackedDetailsInterface.gd: x button pressed")
   _close_window()
 
+
+# called when the system open button press emits a signal - "closes" the stacked details interface
+func _on_system_open_button_pressed():
+  print("StackedDetailsInterface.gd: received system details open button signal")
+  queue_free()
