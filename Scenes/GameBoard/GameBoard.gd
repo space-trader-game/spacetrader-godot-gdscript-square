@@ -63,6 +63,47 @@ func get_distance(start_cell: Vector2, end_cell: Vector2) -> int:
   var difference: Vector2 = (end_cell - start_cell).abs()
   var distance := int(difference.x + difference.y)
   return distance
+  
+
+# adds a unit to the gameboard dictionary and handles stack things
+func _add_unit_to_cell(unit: Unit) -> void:
+  # check if the unit dictionary already has an entry for the key
+  if _units.has(unit.cell):
+    # if there is an entry, check if it is an array
+    if _units[unit.cell] is Array:
+      # if it is an array, append the unit
+      _units[unit.cell].append(unit)
+    else:
+      # temporarily copy the single unit from the dict
+      var temp_unit = _units[unit.cell]
+      
+      # assign the existing unit to the 0 position and the new unit to the 1 position
+      # in a new array of units
+      _units[unit.cell] = [temp_unit, unit]
+  else:
+    # if there is no entry store the first unit in the dict 
+    _units[unit.cell] = unit
+    
+
+# removes a unit from the gameboard dictionary and handles stack things
+func _remove_unit_from_cell(unit: Unit) -> void:
+
+  # we know the dictionary is going to have the key, so we can skip validating that
+  # check if the dictionary has an array or just a single item
+  if _units[unit.cell] is Array:
+    # if it's an array, remove the unit from the array
+    var stack = _units[unit.cell]
+    stack.erase(unit)
+    
+    # if the array's length is now 1, replace the array with just the remaining unit
+    if stack.size() == 1:
+      var temp_unit = stack[0]
+      _units[temp_unit.cell] = temp_unit
+  
+  else:
+    # it's a single item, just clear the cell
+    # warning-ignore:return_value_discarded
+    _units.erase(unit.cell)
 
 
 ## Clears, and refills the `_units` and `_systems` dictionaries with game
@@ -75,22 +116,7 @@ func _reinitialize() -> void:
     # connect the clicked signal emitted by the unit to the GUIs show unit details method
     unit.connect("unit_clicked", _gui, "_show_unit_details")
     
-    # check if the unit dictionary already has an entry for the key
-    if _units.has(unit.cell):
-      # if there is an entry, check if it is an array
-      if _units[unit.cell] is Array:
-        # if it is an array, append the unit
-        _units[unit.cell].append(unit)
-      else:
-        # temporarily copy the single unit from the dict
-        var temp_unit = _units[unit.cell]
-        
-        # assign the existing unit to the 0 position and the new unit to the 1 position
-        # in a new array of units
-        _units[unit.cell] = [temp_unit, unit]
-    else:
-      # if there is no entry store the first unit in the dict 
-      _units[unit.cell] = unit
+    _add_unit_to_cell(unit)
     
   for star_system in $SystemContainer.get_children():
     # put the star system into the dictionary
@@ -117,8 +143,6 @@ func _flood_fill(cell: Vector2, max_distance: int) -> Array:
     array.append(current)
     for direction in DIRECTIONS:
       var coordinates: Vector2 = current + direction
-      if is_occupied(coordinates):
-        continue
       if coordinates in array:
         continue
 
@@ -128,24 +152,44 @@ func _flood_fill(cell: Vector2, max_distance: int) -> Array:
 
 ## Updates the _units dictionary with the target position for the unit and asks the _active_unit to walk to it.
 func _move_active_unit(new_cell: Vector2) -> void:
+  print("GameBoard.gd: attempting to move active unit")
 
   # if the cell that was selected is occupied or isn't walkable, don't do anything and return
-  if is_occupied(new_cell) or not new_cell in _walkable_cells:
+  #if is_occupied(new_cell) or not new_cell in _walkable_cells:
+  if not new_cell in _walkable_cells:
+    print("GameBoard.gd: destination cell is not walkable, returning")
     return
 
-  # change the unit dictionary that the gameboard is maintaining to have the place the unit is going to
-  # warning-ignore:return_value_discarded
-  _units.erase(_active_unit.cell)
-  _units[new_cell] = _active_unit
-  _deselect_active_unit()
-
+  # remove the active unit from the dictionary at its current location
+  _remove_unit_from_cell(_active_unit)
+  
   # reduce the remaining number of moves by the distance walked
   _active_unit.remaining_moves -= get_distance(new_cell, _active_unit.cell)
 
+  # walk the unit
   _active_unit.walk_along(_unit_path.current_path)
-  yield(_active_unit, "walk_finished")
-  _clear_active_unit()
   
+  # finishing the walk updates the cell value for the unit object
+  yield(_active_unit, "walk_finished")
+  
+  # update the dictionary with the units new position
+  _add_unit_to_cell(_active_unit)
+  
+  # clear the overlay so that the pathing can start again
+  _unit_overlay.clear()
+  _unit_path.stop()
+  
+  # reinitialize the pathy stuff
+  _walkable_cells = get_walkable_cells(_active_unit)
+  _unit_overlay.draw(_walkable_cells)
+  _unit_path.initialize(_walkable_cells)
+  
+  ## deselect the unit
+  #_deselect_active_unit()
+
+  ## clear the active unit
+  #_clear_active_unit()
+
 
 # determines if a stack is selected
 func _is_stack_selected(cell: Vector2) -> bool:

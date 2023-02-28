@@ -45,7 +45,7 @@ system_name = "Metallical"
 [node name="UnitContainer" type="Node2D" parent="GameBoard"]
 
 [node name="Freighter" parent="GameBoard/UnitContainer" instance=ExtResource( 3 )]
-position = Vector2( 1026, 356 )
+position = Vector2( 1253, 351 )
 move_range = 6
 
 [node name="Freighter2" parent="GameBoard/UnitContainer" instance=ExtResource( 3 )]
