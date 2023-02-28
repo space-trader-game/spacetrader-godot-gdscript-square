@@ -208,6 +208,15 @@ func _is_stack_selected(cell: Vector2) -> bool:
   # no conditions for stack selected
   return false
 
+# runs a specific set of steps involved in selecting and activating a unit
+func _select_unit(unit: Unit) -> void:
+  _active_unit = unit
+  _active_unit.is_selected = true
+  _active_unit.click_unit()
+
+  _walkable_cells = get_walkable_cells(_active_unit)
+  _unit_overlay.draw(_walkable_cells)
+  _unit_path.initialize(_walkable_cells)
 
 ## Selects the unit in the `cell` if there's one there.
 ## Sets it as the `_active_unit` and draws its walkable cells and interactive move path. 
@@ -220,6 +229,7 @@ func _select_thing(cell: Vector2) -> void:
     
     # tell the stacked details interface where the game gui is
     stacked_details_interface.gui = _gui
+    stacked_details_interface.game_board = self
     
     # determine if there are one or multiple units in the cell
     if _units[cell] is Array:
@@ -241,13 +251,7 @@ func _select_thing(cell: Vector2) -> void:
     
   if _units.has(cell):
     print("GameBoard.gd: unit selected")
-    _active_unit = _units[cell]
-    _active_unit.is_selected = true
-    _active_unit.click_unit()
-
-    _walkable_cells = get_walkable_cells(_active_unit)
-    _unit_overlay.draw(_walkable_cells)
-    _unit_path.initialize(_walkable_cells)
+    _select_unit(_units[cell])
     return
     
   if _star_systems.has(cell):
@@ -270,6 +274,7 @@ func _deselect_active_unit() -> void:
   _active_unit.is_selected = false
   _unit_overlay.clear()
   _unit_path.stop()
+
 
 ## Clears the reference to the _active_system
 func _clear_active_system() -> void:
@@ -301,6 +306,7 @@ func _on_Cursor_moved(new_cell: Vector2) -> void:
     _unit_path.draw(_active_unit.cell, new_cell)
 
 
+# called when an individual unit or system details window is closed
 func _on_details_window_closed(details_screen):
   print("GameBoard.gd: received details window closed signal")
   if details_screen is UnitDetailsScreen:
@@ -312,3 +318,9 @@ func _on_details_window_closed(details_screen):
     print("GameBoard.gd: it's a system details screen")
     _deselect_active_system()
     _clear_active_system()
+
+# called when a unit open button is pressed in a stacked list in order to activate the unit
+# for movement
+func _on_unit_open_button_pressed(unit):
+  print("GameBoard.gd: received unit open button signal")
+  _select_unit(unit)
