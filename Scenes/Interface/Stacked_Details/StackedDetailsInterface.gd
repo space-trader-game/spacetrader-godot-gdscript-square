@@ -19,14 +19,14 @@ var gui: Control
 var game_board: Node2D
 
 
-onready var _list_container = $ScrollContainer/VBoxContainer
+@onready var _list_container = $ScrollContainer/VBoxContainer
 
 
 # The stacked details unit screen
-export var _stacked_unit_details_resource: Resource = preload("res://Scenes/Interface/Stacked_Details/StackedUnitDetails.tscn")
+@export var _stacked_unit_details_resource: Resource = preload("res://Scenes/Interface/Stacked_Details/StackedUnitDetails.tscn")
 
 # The stacked system details screen
-export var _stacked_system_details_resource: Resource = preload("res://Scenes/Interface/Stacked_Details/StackedSystemDetails.tscn")
+@export var _stacked_system_details_resource: Resource = preload("res://Scenes/Interface/Stacked_Details/StackedSystemDetails.tscn")
 
 
 # Called when the node enters the scene tree for the first time.
@@ -34,13 +34,13 @@ func _ready():
   # iterate over the units and add them to the stack interface
   for unit in units:
     print("StackedDetailsInterface.gd: adding a unit stack")
-    var stacked_unit_interface = _stacked_unit_details_resource.instance()
+    var stacked_unit_interface = _stacked_unit_details_resource.instantiate()
     
     # connect the unit open button signal to this scene so that we can close the stack details screen
-    stacked_unit_interface.connect("unit_open_button_pressed", self, "_on_unit_open_button_pressed")
+    stacked_unit_interface.connect("unit_open_button_pressed",Callable(self,"_on_unit_open_button_pressed"))
     
     # connect the unit open button signal to the gameboard so that the chosen unit can be activated
-    stacked_unit_interface.connect("unit_open_button_pressed", game_board, "_on_unit_open_button_pressed")
+    stacked_unit_interface.connect("unit_open_button_pressed",Callable(game_board,"_on_unit_open_button_pressed"))
     
     stacked_unit_interface.my_unit = unit
     stacked_unit_interface.gui = gui
@@ -50,9 +50,9 @@ func _ready():
   # then, if the star system exists, add it to the stack interface last
   if !(star_system == null):
     print("StackedDetailsInterface.gd: adding a system stack")
-    var stacked_system_interface = _stacked_system_details_resource.instance()
+    var stacked_system_interface = _stacked_system_details_resource.instantiate()
     
-    stacked_system_interface.connect("system_open_button_pressed", self, "_on_system_open_button_pressed")
+    stacked_system_interface.connect("system_open_button_pressed",Callable(self,"_on_system_open_button_pressed"))
     
     stacked_system_interface.my_star_system = star_system
     stacked_system_interface.gui = gui
@@ -89,6 +89,6 @@ func _on_system_open_button_pressed():
   
 # called when the unit open button press emits a signal - "closes" the stacked details interface
 # warning-ignore:unused_argument
-func _on_unit_open_button_pressed(unit):
+func _on_unit_open_button_pressed(_unit):
   print("StackedDetailsInterface.gd: received unit details open button signal")
   queue_free()

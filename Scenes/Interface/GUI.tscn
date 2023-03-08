@@ -13,25 +13,25 @@ script = ExtResource( 4 )
 [node name="Counters" type="HBoxContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -560.0
-margin_top = 24.0
-margin_right = -16.0
-margin_bottom = 64.0
+offset_left = -560.0
+offset_top = 24.0
+offset_right = -16.0
+offset_bottom = 64.0
 
 [node name="MoneyCounter" parent="Counters" instance=ExtResource( 2 )]
 
 [node name="TurnCounter" parent="Counters" instance=ExtResource( 1 )]
-margin_left = 344.0
-margin_right = 544.0
+offset_left = 344.0
+offset_right = 544.0
 
 [node name="EndTurnButton" parent="." instance=ExtResource( 3 )]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -166.0
-margin_top = -63.0
-margin_right = -16.0
-margin_bottom = -16.0
+offset_left = -166.0
+offset_top = -63.0
+offset_right = -16.0
+offset_bottom = -16.0
 
 [connection signal="pressed" from="EndTurnButton" to="." method="_on_EndTurnButton_pressed"]

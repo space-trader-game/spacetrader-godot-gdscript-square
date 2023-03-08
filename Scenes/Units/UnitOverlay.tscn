@@ -1,11 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://ftohgfiexedi"]
 
-[ext_resource path="res://Assets/Units/unit_overlay_tileset.tres" type="TileSet" id=1]
-[ext_resource path="res://Scenes/Units/UnitOverlay.gd" type="Script" id=2]
+[ext_resource type="TileSet" path="res://Assets/Units/unit_overlay_tileset.tres" id="1"]
+[ext_resource type="Script" path="res://Scenes/Units/UnitOverlay.gd" id="2"]
 
 [node name="UnitOverlay" type="TileMap"]
-modulate = Color( 1, 1, 1, 0.356863 )
-tile_set = ExtResource( 1 )
-cell_size = Vector2( 80, 80 )
-format = 1
-script = ExtResource( 2 )
+modulate = Color(1, 1, 1, 0.356863)
+tile_set = ExtResource("1")
+format = 2
+script = ExtResource("2")

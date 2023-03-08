@@ -10,7 +10,7 @@ var my_star_system: StarSystem
 var gui: Control
 
 
-onready var _system_name = $SystemName
+@onready var _system_name = $SystemName
 
 
 # Called when the node enters the scene tree for the first time.
@@ -30,7 +30,7 @@ func _on_open_Button_pressed():
   emit_signal("system_open_button_pressed")
   
   # instantiate this specific system's interface screen
-  var star_system_interface = my_star_system.interface_scene.instance()
+  var star_system_interface = my_star_system.interface_scene.instantiate()
 
   star_system_interface.my_system = my_star_system
 

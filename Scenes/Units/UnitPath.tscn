@@ -1,10 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://bgsljpd406y7u"]
 
-[ext_resource path="res://Scenes/Units/ThickArrowUnitPath.tres" type="TileSet" id=1]
-[ext_resource path="res://Scenes/Units/UnitPath.gd" type="Script" id=2]
+[ext_resource type="TileSet" uid="uid://xhntjmlh6lc5" path="res://Scenes/Units/ThickArrowUnitPath.tres" id="1_g82uq"]
+[ext_resource type="Script" path="res://Scenes/Units/UnitPath.gd" id="2"]
 
 [node name="TileMap" type="TileMap"]
-tile_set = ExtResource( 1 )
-cell_size = Vector2( 80, 80 )
-format = 1
-script = ExtResource( 2 )
+tile_set = ExtResource("1_g82uq")
+format = 2
+script = ExtResource("2")
