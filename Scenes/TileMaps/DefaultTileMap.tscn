@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://Assets/Backgrounds/2023_Starfield_tileset.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Backgrounds/2023_Starfield_tileset.png" type="Texture2D" id=1]
 
 [sub_resource type="TileSet" id=1]
 0/name = "2023_Starfield_tileset.png 0"
@@ -29,7 +29,7 @@
 tile_set = SubResource( 1 )
 cell_size = Vector2( 80, 80 )
 format = 1
-tile_data = PoolIntArray( 393228, 0, 0 )
+tile_data = PackedInt32Array( 393228, 0, 0 )
 __meta__ = {
 "_edit_lock_": true
 }

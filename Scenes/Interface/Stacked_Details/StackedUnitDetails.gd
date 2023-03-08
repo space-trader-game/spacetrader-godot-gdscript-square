@@ -10,7 +10,7 @@ var my_unit: Unit
 # the game's gui
 var gui: Control
 
-onready var _unit_name = $UnitName
+@onready var _unit_name = $UnitName
 
 
 # Called when the node enters the scene tree for the first time.
@@ -29,7 +29,7 @@ func _on_open_Button_pressed():
   emit_signal("unit_open_button_pressed", my_unit)
   
   # instantiate this specific system's interface screen
-  var unit_interface = my_unit.interface_scene.instance()
+  var unit_interface = my_unit.interface_scene.instantiate()
 
   unit_interface.my_unit = my_unit
 

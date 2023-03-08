@@ -9,8 +9,8 @@ signal window_closed
 var my_unit: Unit
 
 
-onready var _moves_remaining = $GridContainer/MovesRemaining
-onready var _unit_name = $GridContainer/UnitName
+@onready var _moves_remaining = $GridContainer/MovesRemaining
+@onready var _unit_name = $GridContainer/UnitName
 
 
 # Called when the node enters the scene tree for the first time.

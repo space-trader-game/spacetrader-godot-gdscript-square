@@ -1,0 +1,14 @@
+res://default_env.tres
+res://Scenes/Game/Game.tscn
+res://Scenes/Units/ThickArrowUnitPath.tres
+res://Scenes/temp.tscn
+res://Scenes/Units/UnitPath.tscn
+res://Scenes/Units/UnitOverlay.tscn
+res://Scenes/Units/Unit.tscn
+res://Scenes/Systems/StarSystem.tscn
+res://Scenes/Units/Unit.gd
+res://Scenes/Game/Game.gd
+res://Scenes/Grid.gd
+res://Scenes/GameBoard/Cursor.gd
+res://Scenes/Systems/StarSystem.gd
+res://Scenes/Interface/Stacked_Details/StackedDetailsInterface.gd

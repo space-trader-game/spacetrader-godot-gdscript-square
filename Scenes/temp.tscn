@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://dyxpsgqh2buft"]
+
+[ext_resource type="PackedScene" uid="uid://begfrikf32qam" path="res://Scenes/Units/Unit.tscn" id="1_82sri"]
+[ext_resource type="Texture2D" uid="uid://xer57gvllw7p" path="res://Assets/Units/XK1_Hauler.png" id="2_naw85"]
+[ext_resource type="PackedScene" path="res://Scenes/GameBoard/Cursor.tscn" id="3_0idos"]
+
+[node name="temp" type="Node2D"]
+
+[node name="Unit" parent="." instance=ExtResource("1_82sri")]
+position = Vector2(954, 443)
+skin = ExtResource("2_naw85")
+
+[node name="Cursor" parent="." instance=ExtResource("3_0idos")]
+metadata/_edit_lock_ = true

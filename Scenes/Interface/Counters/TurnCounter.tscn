@@ -1,15 +1,15 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Interface/Counters/Counter.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/GUI/stablediffusion-a_videogame_shield_icon_Seed-4186572_Steps-50_Guidance-7.5.jpeg" type="Texture" id=2]
+[ext_resource path="res://Assets/GUI/stablediffusion-a_videogame_shield_icon_Seed-4186572_Steps-50_Guidance-7.5.jpeg" type="Texture2D" id=2]
 
 [node name="TurnCounter" instance=ExtResource( 1 )]
-rect_min_size = Vector2( 200, 100 )
+custom_minimum_size = Vector2( 200, 100 )
 
 [node name="Icon" parent="." index="0"]
-margin_left = -91.0
-margin_top = -39.0
-margin_right = 421.0
-margin_bottom = 473.0
-rect_scale = Vector2( 0.15, 0.15 )
+offset_left = -91.0
+offset_top = -39.0
+offset_right = 421.0
+offset_bottom = 473.0
+scale = Vector2( 0.15, 0.15 )
 texture = ExtResource( 2 )

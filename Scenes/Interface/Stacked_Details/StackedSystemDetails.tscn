@@ -1,31 +1,31 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Scenes/Interface/default-ui.tres" type="Theme" id=1]
-[ext_resource path="res://Assets/Systems/12.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Systems/12.png" type="Texture2D" id=2]
 [ext_resource path="res://Scenes/Interface/Stacked_Details/StackedSystemDetails.gd" type="Script" id=3]
 
 [node name="StackedSystemDetails" type="HBoxContainer"]
-margin_right = 40.0
-margin_bottom = 40.0
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource( 3 )
 
 [node name="SystemName" type="Label" parent="."]
-margin_top = 43.0
-margin_right = 193.0
-margin_bottom = 84.0
+offset_top = 43.0
+offset_right = 193.0
+offset_bottom = 84.0
 theme = ExtResource( 1 )
 text = "SystemName"
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_left = 197.0
-margin_right = 325.0
-margin_bottom = 128.0
+offset_left = 197.0
+offset_right = 325.0
+offset_bottom = 128.0
 texture = ExtResource( 2 )
 
 [node name="Button" type="Button" parent="."]
-margin_left = 329.0
-margin_right = 420.0
-margin_bottom = 128.0
+offset_left = 329.0
+offset_right = 420.0
+offset_bottom = 128.0
 theme = ExtResource( 1 )
 text = "Open"
 

@@ -1,4 +1,4 @@
-tool
+@tool
 class_name StarSystem
 extends Node2D
 
@@ -6,28 +6,28 @@ extends Node2D
 signal system_clicked
 
 ## The default name for the unit
-export var system_name: String
+@export var system_name: String
 
 ## Shared resource of type Grid, used to calculate map coordinates.
-export var grid: Resource = preload("res://Scenes/Grid.tres")
+@export var grid: Resource = preload("res://Scenes/Grid.tres")
 
 ## The systems' stats interface scene
-export var interface_scene: Resource
+@export var interface_scene: Resource
 
 ## coordinates of the star system
-var cell := Vector2.ZERO setget set_cell
+var cell := Vector2.ZERO : set = set_cell
 
 ## Toggles the "selected" animation on the unit.
-var is_selected := false setget set_is_selected
+var is_selected := false : set = set_is_selected
 
-onready var _anim_player: AnimationPlayer = $AnimationPlayer
+@onready var _anim_player: AnimationPlayer = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-  # ensure the system is centered in a cell when added to the scene tree
-  self.cell = grid.calculate_grid_coordinates(position)
-  position = grid.calculate_map_position(cell)
-  add_to_group("systems")
+	# ensure the system is centered in a cell when added to the scene tree
+	self.cell = grid.calculate_grid_coordinates(position)
+	position = grid.calculate_map_position(cell)
+	add_to_group("systems")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -37,7 +37,7 @@ func _ready():
 
 # Uses the Grid's clamp function to ensure the cell doesn't go outside the grid
 func set_cell(value: Vector2) -> void:
-  cell = grid.clamp(value)
+	cell = grid.grid_clamp(value)
 
 
 func set_is_selected(value: bool) -> void:

@@ -5,23 +5,23 @@ var _current_turn = 0
 var _current_money = 1000000000
 
 
-onready var _turn_counter = $GUI/Counters/TurnCounter/Number
-onready var _money_counter = $GUI/Counters/MoneyCounter/Number
-onready var _gui = $GUI
+@onready var _turn_counter = $GUI/Counters/TurnCounter/Number
+@onready var _money_counter = $GUI/Counters/MoneyCounter/Number
+@onready var _gui = $GUI
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
   _turn_counter.text = str(_current_turn)
   _money_counter.text = comma_sep(_current_money)
-  _gui.connect("turn_ended", self, "_on_turn_ended")
+  _gui.connect("turn_ended",Callable(self,"_on_turn_ended"))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
   _turn_counter.text = str(_current_turn)
   _money_counter.text = comma_sep(_current_money)
 
 # https://godotengine.org/qa/18559/how-to-add-commas-to-an-integer-or-float-in-gdscript?show=70786#a70786
-static func comma_sep(n: int) -> String:
+func comma_sep(n: int) -> String:
   var result := ""
 
   # warning-ignore:narrowing_conversion
