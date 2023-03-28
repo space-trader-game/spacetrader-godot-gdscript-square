@@ -49,7 +49,9 @@ move_range = 6
 position = Vector2(766, 517)
 move_range = 6
 
-[node name="GUI" parent="." instance=ExtResource("9")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="GUI" parent="CanvasLayer" instance=ExtResource("9")]
 layout_mode = 3
 anchors_preset = 15
 grow_horizontal = 2

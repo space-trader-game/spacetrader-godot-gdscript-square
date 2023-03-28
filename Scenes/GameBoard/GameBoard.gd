@@ -27,7 +27,7 @@ var _gui: Control
 
 
 func _ready() -> void:
-	_gui = get_parent().get_node("GUI")
+	_gui = get_parent().get_node("CanvasLayer/GUI")
 	_reinitialize()
 
 

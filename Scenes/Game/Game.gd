@@ -5,9 +5,9 @@ var _current_turn = 0
 var _current_money = 1000000000
 
 
-@onready var _turn_counter = $GUI/Counters/TurnCounter/Number
-@onready var _money_counter = $GUI/Counters/MoneyCounter/Number
-@onready var _gui = $GUI
+@onready var _turn_counter = $CanvasLayer/GUI/Counters/TurnCounter/Number
+@onready var _money_counter = $CanvasLayer/GUI/Counters/MoneyCounter/Number
+@onready var _gui = $CanvasLayer/GUI
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -28,8 +28,8 @@ func comma_sep(n: int) -> String:
   var i: int = abs(n)
 
   while i > 999:
-    result = ",%03d%s" % [i % 1000, result]
-    i /= 1000
+	result = ",%03d%s" % [i % 1000, result]
+	i /= 1000
 
   return "%s%s%s" % ["-" if n < 0 else "", i, result]
 
@@ -40,8 +40,8 @@ func _on_turn_ended():
 
   # iterate over all of the units
   for unit in current_units:
-    # reset the unit moves remaining to the unit's movement range
-    unit.remaining_moves = unit.move_range
+	# reset the unit moves remaining to the unit's movement range
+	unit.remaining_moves = unit.move_range
   
   # increment the current turn
   _current_turn += 1
