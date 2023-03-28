@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwtnxueivn3lr"]
+
+[ext_resource type="Script" path="res://Scenes/Units/Components/CargoHauler.gd" id="1_pwkr0"]
+
+[node name="CargoHauler" type="Node"]
+script = ExtResource("1_pwkr0")
