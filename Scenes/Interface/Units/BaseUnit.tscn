@@ -1,21 +1,26 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=5 format=3 uid="uid://bcknec010o4y6"]
 
-[ext_resource path="res://Assets/GUI/label_bg.png" type="Texture2D" id=1]
-[ext_resource path="res://Scenes/Interface/default-ui.tres" type="Theme" id=2]
-[ext_resource path="res://Assets/Units/XK1_Hauler.png" type="Texture2D" id=3]
-[ext_resource path="res://Scenes/Interface/Units/BaseUnit.gd" type="Script" id=4]
+[ext_resource type="Texture2D" uid="uid://bpn05ord7bm45" path="res://Assets/GUI/label_bg.png" id="1"]
+[ext_resource type="Theme" path="res://Scenes/Interface/default-ui.tres" id="2"]
+[ext_resource type="Texture2D" uid="uid://xer57gvllw7p" path="res://Assets/Units/XK1_Hauler.png" id="3"]
+[ext_resource type="Script" path="res://Scenes/Interface/Units/BaseUnit.gd" id="4"]
 
 [node name="BaseUnit" type="NinePatchRect"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -250.0
 offset_right = 450.0
-offset_bottom = 250.0
-texture = ExtResource( 1 )
+grow_vertical = 0
+texture = ExtResource("1")
 patch_margin_left = 8
 patch_margin_top = 8
 patch_margin_right = 8
 patch_margin_bottom = 8
-script = ExtResource( 4 )
+script = ExtResource("4")
 
 [node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 10.0
@@ -25,41 +30,36 @@ offset_bottom = -10.0
 columns = 2
 
 [node name="UnitName" type="Label" parent="GridContainer"]
-offset_top = 11.0
-offset_right = 362.0
-offset_bottom = 52.0
+layout_mode = 2
 size_flags_horizontal = 7
-theme = ExtResource( 2 )
+theme = ExtResource("2")
 text = "UnitName"
 
 [node name="TextureRect" type="TextureRect" parent="GridContainer"]
-offset_left = 366.0
-offset_right = 430.0
-offset_bottom = 64.0
-texture = ExtResource( 3 )
+layout_mode = 2
+texture = ExtResource("3")
 
 [node name="MovesRemainingPrompt" type="Label" parent="GridContainer"]
-offset_top = 68.0
-offset_right = 362.0
-offset_bottom = 109.0
+layout_mode = 2
 size_flags_horizontal = 7
-theme = ExtResource( 2 )
+theme = ExtResource("2")
 text = "Moves Remaining:"
 
 [node name="MovesRemaining" type="Label" parent="GridContainer"]
-offset_left = 366.0
-offset_top = 68.0
-offset_right = 430.0
-offset_bottom = 109.0
-theme = ExtResource( 2 )
+layout_mode = 2
+theme = ExtResource("2")
 text = "99"
-align = 1
 
 [node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -12.0
-offset_bottom = 20.0
+offset_left = -11.0
+offset_top = -10.0
+offset_right = 7.0
+offset_bottom = 21.0
+grow_horizontal = 0
 text = "X"
 
 [connection signal="pressed" from="Button" to="." method="_on_x_Button_pressed"]

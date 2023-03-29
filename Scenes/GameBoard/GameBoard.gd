@@ -217,6 +217,12 @@ func _select_unit(unit: Unit) -> void:
 	_unit_overlay.draw(_walkable_cells)
 	_unit_path.initialize(_walkable_cells)
 
+# runs a specific set of steps involved in selecting and activating a system
+func _select_system(system: StarSystem) -> void:
+	_active_system = system
+	_active_system.is_selected = true
+	_active_system.click_system()
+
 ## Selects the unit in the `cell` if there's one there.
 ## Sets it as the `_active_unit` and draws its walkable cells and interactive move path. 
 func _select_thing(cell: Vector2) -> void:
@@ -255,9 +261,7 @@ func _select_thing(cell: Vector2) -> void:
 	
 	if _star_systems.has(cell):
 		print("GameBoard.gd: system selected")
-		_active_system = _star_systems[cell]
-		_active_system.is_selected = true
-		_active_system.click_system()
+		_select_system(_star_systems[cell])
 		return
 	
 	print("GameBoard.gd: looks like clicked on empty space")
@@ -320,6 +324,11 @@ func _on_details_window_closed(details_screen):
 
 # called when a unit open button is pressed in a stacked list in order to activate the unit
 # for movement
-func _on_unit_open_button_pressed(unit):
+func _on_unit_open_button_pressed(unit: Unit) -> void:
 	print("GameBoard.gd: received unit open button signal")
 	_select_unit(unit)
+
+# called when a system open button is pressed in a stacked list in order to activate the system
+func _on_system_open_button_pressed(system: StarSystem) -> void:
+	print("GameBoard.gd: received system open button signal")
+	_select_system(system)
