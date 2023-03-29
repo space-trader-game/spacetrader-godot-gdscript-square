@@ -46,7 +46,7 @@ position = Vector2(1253, 351)
 move_range = 6
 
 [node name="Freighter2" parent="GameBoard/UnitContainer" instance=ExtResource("3")]
-position = Vector2(766, 517)
+position = Vector2(768, 538)
 move_range = 6
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
@@ -57,6 +57,7 @@ anchors_preset = 15
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+metadata/_edit_lock_ = true
 
 [connection signal="accept_pressed" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_accept_pressed"]
 [connection signal="moved" from="GameBoard/Cursor" to="GameBoard" method="_on_Cursor_moved"]
